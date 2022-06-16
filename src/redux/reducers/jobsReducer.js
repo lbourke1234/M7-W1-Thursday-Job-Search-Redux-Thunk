@@ -21,7 +21,7 @@ const jobsReducer = (state = initialState, action) => {
     case FINISHED_LOADING:
       return {
         ...state,
-        loading: false
+        finishedLoading: true
       }
     default:
       return state

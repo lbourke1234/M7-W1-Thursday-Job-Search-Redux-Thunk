@@ -8,13 +8,27 @@ const mapStateToProps = (state) => ({
   finishedLoading: state.jobs.finishedLoading
 })
 
-const JobsList = ({ jobs, fetchingError, finishedLoading }) =>
-  //   !finishedLoading &&
-  //   (<Spinner variant="danger" animation="border"></Spinner>)
-  fetchingError ? (
-    <Alert variant="danger">error while fetching</Alert>
-  ) : (
-    jobs.map((job) => <SingleJob job={job} key={job._id} />)
+const JobsList = ({ jobs, fetchingError, finishedLoading }) => {
+  return (
+    <>
+      {!finishedLoading && (
+        <div className="text-center">
+          <Spinner variant="danger" animation="border"></Spinner>
+        </div>
+      )}
+      {fetchingError && <Alert variant="danger">error while fetching</Alert>}
+      {finishedLoading &&
+        !fetchingError &&
+        jobs.map((job) => <SingleJob job={job} key={job._id} />)}
+    </>
   )
+}
+//   !finishedLoading &&
+//   (<Spinner variant="danger" animation="border"></Spinner>)
+//   fetchingError ? (
+//     <Alert variant="danger">error while fetching</Alert>
+//   ) : (
+//     jobs.map((job) => <SingleJob job={job} key={job._id} />)
+//   )
 
 export default connect(mapStateToProps, mapDispatchToProps)(JobsList)

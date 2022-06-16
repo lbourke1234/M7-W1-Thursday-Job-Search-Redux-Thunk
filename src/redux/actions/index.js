@@ -74,6 +74,9 @@ export const getBooksAction = () => {
           type: SET_JOBS_LIST,
           payload: body.data
         })
+        dispatch({
+          type: FINISHED_LOADING
+        })
       } else {
         dispatch({
           type: ERROR_WHILE_FETCHING
