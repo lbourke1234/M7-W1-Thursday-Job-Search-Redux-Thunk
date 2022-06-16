@@ -1,11 +1,11 @@
 import { Form, Container, Row, Col } from 'react-bootstrap'
 import { connect } from 'react-redux'
-import { setSearchTextAction } from '../redux/actions'
+import { setSearchTextActionAndFetch } from '../redux/actions'
 
 const mapStateToProps = (state) => ({})
 const mapDispatchToProps = (dispatch) => ({
   setSearchText: (text) => {
-    dispatch(setSearchTextAction(text))
+    dispatch(setSearchTextActionAndFetch(text))
   }
 })
 

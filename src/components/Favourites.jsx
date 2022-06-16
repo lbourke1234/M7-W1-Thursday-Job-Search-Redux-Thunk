@@ -20,7 +20,6 @@ const Favourites = ({ favourites }) => {
     )
     if (response.ok) {
       const body = await response.json()
-      console.log(body.data)
       setFaves(body.data)
     }
   }
@@ -33,7 +32,7 @@ const Favourites = ({ favourites }) => {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [faves])
-  return favourites.map((job) => <SingleJob job={job} key={job._id} />)
+  return favourites.map((job, i) => <SingleJob job={job} key={job._id} index={i} />)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Favourites)

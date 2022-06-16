@@ -1,5 +1,19 @@
 import SingleJob from './SingleJob'
+import { connect } from 'react-redux'
+import { Alert, Spinner } from 'react-bootstrap'
 
-const JobsList = ({ jobs }) => jobs.map((job) => <SingleJob job={job} key={job._id} />)
+const mapDispatchToProps = (dispatch) => ({})
+const mapStateToProps = (state) => ({
+  fetchingError: state.jobs.error,
+  finishedLoading: state.jobs.finishedLoading
+})
 
-export default JobsList
+const JobsList = ({ jobs, fetchingError, finishedLoading }) =>
+  !finishedLoading && <Spinner variant="danger" animation="border"></Spinner>
+fetchingError && (
+  <Alert variant="danger">error while fetching</Alert>
+) : (
+  jobs.map((job) => <SingleJob job={job} key={job._id} />)
+)
+
+export default connect(mapStateToProps, mapDispatchToProps)(JobsList)

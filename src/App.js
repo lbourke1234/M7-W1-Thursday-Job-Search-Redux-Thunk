@@ -14,6 +14,8 @@ import Favourites from './components/Favourites'
 import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
+import { getBooksAction } from './redux/actions'
+
 const mapStateToProps = (state) => ({
   searchText: state.search.searchText,
   jobs: state.jobs.jobsList,
@@ -21,44 +23,34 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  setJobs: (jobs) => {
-    dispatch(setJobsListAction(jobs))
+  setJobs: (text) => {
+    dispatch(getBooksAction(text))
   }
 })
 
 const App = ({ searchText, jobs, selectValue, setJobs }) => {
-  const fetchSearchApi = async (searchText) => {
-    const response = await fetch(
-      `https://strive-jobs-api.herokuapp.com/jobs?search=${searchText}&limit=10`
-    )
-    if (response.ok) {
-      const body = await response.json()
-
-      const titleSearchResults = body.data.filter(
-        (job) =>
-          job.title.toLowerCase().includes(searchText.toLowerCase()) ||
-          job.company_name.toLowerCase().includes(searchText.toLowerCase())
-      )
-
-      setJobs(titleSearchResults)
-    }
-  }
-
   const fetchCategory = async (selectValue) => {
-    const response = await fetch(
-      `https://strive-jobs-api.herokuapp.com/jobs?category=${selectValue}&limit=10`
-    )
-
-    if (response.ok) {
-      const body = await response.json()
-      setJobs(body.data)
-    }
+    // const response = await fetch(
+    //   `https://strive-jobs-api.herokuapp.com/jobs?category=${selectValue}&limit=10`
+    // )
+    // if (response.ok) {
+    //   const body = await response.json()
+    //   setJobs(body.data)
+    // }
   }
-
-  useEffect(() => {
-    fetchSearchApi(searchText)
+  useEffect(
+    (searchText) => {
+      setJobs(searchText)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchText])
+    []
+  )
+
+  // useEffect(() => {
+  //   fetchSearchApi(searchText)
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [searchText])
 
   useEffect(
     () => {
@@ -75,7 +67,9 @@ const App = ({ searchText, jobs, selectValue, setJobs }) => {
       <Container>
         <Row>
           <Col>
-            <h1 className="text-center">Job Search</h1>
+            <Link to={'/'}>
+              <h1 className="text-center">Job Search</h1>
+            </Link>
           </Col>
           <SearchBar />
           <SelectCategory />
